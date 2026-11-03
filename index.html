@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f5f0" />
+    <meta name="description" content="A quick, clever quiz about the stories shaping our world." />
+    <title>Current-ish — The news, in quiz form</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <link rel="stylesheet" href="sources.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Current-ish home"><span class="brand-mark">c.</span><span>current-ish</span></a>
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#home" data-view="home">Play</a>
+        <a class="nav-link" href="#leaderboard" data-view="leaderboard">Leaderboard</a>
+        <a class="nav-link" href="#about" data-view="about">About</a>
+      </nav>
+      <button class="account-button" id="accountButton"><span class="avatar-icon">↗</span><span>Sign in</span></button>
+    </header>
+
+    <main id="app">
+      <section class="view active" id="homeView">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="live-dot"></span> YOUR DAILY DOSE OF “WAIT, WHAT?”</div>
+            <h1>The news,<br />in <span class="underline-word">quiz</span> form.</h1>
+            <p class="hero-lede">Big stories. Sharp questions. A tiny excuse to be the smartest person in the group chat.</p>
+            <div class="hero-meta"><span class="spark">✳</span> Freshly curious, never doom-scrolly.</div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-card paper-one"><span class="art-stamp">TODAY<br />ISH</span><span class="art-lines"></span><span class="art-lines short"></span></div>
+            <div class="art-card paper-two"><span class="art-orbit orbit-a"></span><span class="art-orbit orbit-b"></span><span class="art-spark">✳</span></div>
+            <div class="art-card paper-three"><span class="art-number">?</span><span class="art-lines"></span><span class="art-lines short"></span></div>
+            <span class="art-caption">A little context<br />goes a long way.</span>
+          </div>
+        </div>
+
+        <section class="play-panel" aria-labelledby="playHeading">
+          <div class="panel-heading">
+            <div><div class="eyebrow muted">PICK YOUR PACE</div><h2 id="playHeading">How curious are you?</h2></div>
+            <span class="pack-pill"><span class="pill-dot"></span><span id="packLabel">Preview question pack</span></span>
+          </div>
+          <div class="length-grid" role="group" aria-label="Choose quiz length">
+            <button class="length-card" data-length="3"><span class="length-top"><span class="length-count">03</span><span class="length-arrow">↗</span></span><span class="length-title">Quick take</span><span class="length-desc">A tiny brain stretch</span><span class="length-time">~2 MIN</span></button>
+            <button class="length-card selected" data-length="5"><span class="length-top"><span class="length-count">05</span><span class="length-arrow">↗</span></span><span class="length-title">The usual</span><span class="length-desc">Just right with a snack</span><span class="length-time">~4 MIN <span class="popular-tag">POPULAR</span></span></button>
+            <button class="length-card" data-length="10"><span class="length-top"><span class="length-count">10</span><span class="length-arrow">↗</span></span><span class="length-title">Deep dive</span><span class="length-desc">For the group chat expert</span><span class="length-time">~7 MIN</span></button>
+          </div>
+          <div class="panel-bottom"><span class="guest-note"><span class="check-mark">✓</span> No account needed to play</span><button class="primary-button" id="startButton">Let's go <span>→</span></button></div>
+        </section>
+
+        <section class="today-strip"><div class="strip-icon">✳</div><div><strong>Curiosity, with receipts.</strong><span>Every answer comes with a source, so the rabbit hole is one click away.</span></div><a href="#about" data-view="about" class="text-link">How it works <span>↗</span></a></section>
+      </section>
+
+      <section class="view quiz-view" id="quizView" aria-live="polite">
+        <div class="quiz-topline"><button class="back-button" id="quitButton">← <span>Leave quiz</span></button><span class="quiz-pack-label">THE USUAL · PREVIEW PACK</span><span class="quiz-score">✳ <span id="liveScore">0</span></span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="question-area" id="questionArea"></div>
+        <div class="quiz-footer"><span id="questionCounter">QUESTION 01 / 05</span><span class="keyboard-hint">A LITTLE CONTEXT GOES A LONG WAY <span>✳</span></span></div>
+      </section>
+
+      <section class="view results-view" id="resultsView">
+        <div class="results-card">
+          <div class="result-burst">✳</div>
+          <div class="eyebrow muted">THAT'S A WRAP</div>
+          <h2 id="resultTitle">Nicely nosy.</h2>
+          <p class="result-subtitle" id="resultSubtitle">You got 4 out of 5.</p>
+          <div class="score-ring"><span id="finalScore">04</span><small>/ <span id="finalTotal">05</span></small></div>
+          <div class="rank-card"><div class="rank-icon">↗</div><div><strong id="rankTitle">Your guest score would land around #3</strong><span id="rankSubtitle">on today's sample global board · sign in to save your place</span></div><span class="rank-badge">GUEST</span></div>
+          <div class="result-actions"><button class="primary-button" id="replayButton">Play again <span>↻</span></button><button class="secondary-button" id="shareButton">Share result <span>↗</span></button></div>
+          <button class="sign-in-prompt" id="resultSignIn">Save your score and play for keeps <span>→</span></button>
+          <p class="preview-note">Preview mode: scores and standings are sample data until accounts are connected.</p>
+        </div>
+      </section>
+
+      <section class="view leaderboard-view" id="leaderboardView">
+        <div class="section-kicker">THE GLOBAL BOARD · PREVIEW</div>
+        <div class="leader-title-row"><div><div class="eyebrow muted">THE FRIENDLY COMPETITION</div><h1>Brains of<br />the <span class="underline-word">moment.</span></h1></div><div class="board-note">A global board for the curious.<br />Guests can see where they’d land.</div></div>
+        <div class="leaderboard-card"><div class="leader-head"><span>RANK</span><span>PLAYER</span><span>BEST SCORE</span><span>STREAK</span></div><div id="leaderRows"></div><div class="guest-rank-row"><span class="leader-rank">—</span><span class="leader-player"><span class="leader-avatar guest-avatar">?</span><span>You <em>(guest)</em></span></span><span id="guestBoardScore">—</span><span class="guest-rank-label">PLAY A QUIZ TO SEE YOUR SPOT</span></div></div>
+        <div class="board-footer"><span class="check-mark">✓</span> Guest scores are previewed. Sign in to save your score to the global board.</div>
+        <button class="secondary-button board-play" id="boardPlayButton">Play a quiz <span>→</span></button>
+      </section>
+
+      <section class="view about-view" id="aboutView">
+        <div class="section-kicker">GOOD QUESTIONS. GOOD SOURCES.</div>
+        <div class="about-grid"><div><div class="eyebrow muted">WHAT IS CURRENT-ISH?</div><h1>Stay curious.<br /><span class="underline-word">Stay kind.</span></h1></div><p class="about-lede">A short, playful quiz about technology, society, and the stories shaping our world. No hot takes required—just a little context and a healthy appetite for “huh, interesting.”</p></div>
+        <div class="about-cards"><article><span class="about-icon">01</span><h3>Stories, then questions</h3><p>Suggestions are drafted from recent reporting, checked, then approved before they become playable.</p></article><article><span class="about-icon">02</span><h3>Receipts included</h3><p>Every answer includes a short explanation and links to its sources. Curiosity should be easy to follow.</p></article><article><span class="about-icon">03</span><h3>Open by design</h3><p>Play here or embed it on your site. The embed keeps a clear, clickable credit back to Current-ish.</p></article></div>
+        <div class="embed-card"><div><div class="eyebrow muted">TAKE IT TO YOUR CORNER OF THE INTERNET</div><h2>Put a little context<br />on your website.</h2><p>Copy the snippet and paste it into your site’s HTML.</p></div><div class="embed-code-wrap"><pre id="embedCode"></pre><button class="copy-button" id="copyEmbed">Copy embed code <span>↗</span></button></div></div>
+      </section>
+    </main>
+
+    <footer class="footer"><a class="footer-brand" href="#home" data-view="home">current-ish<span>© 2026</span></a><span>Made for curious people, everywhere.</span><a href="#about" data-view="about">About the quiz ↗</a></footer>
+    <div class="embed-credit" id="embedCredit"><span>✳</span> A quiz by <a href="#home">Current-ish</a></div>
+
+    <dialog id="accountDialog" class="account-dialog"><button class="dialog-close" id="closeDialog" aria-label="Close">×</button><div class="dialog-mark">c.</div><div class="eyebrow muted" id="accountEyebrow">YOUR CURIOSITY, KEPT IN ONE PLACE</div><h2 id="accountTitle">Save your scores.<br />Keep your streak.</h2><p id="accountCopy">Sign in to save quiz history and appear on the global board. Your public nickname stays separate from your Google identity. Guest play stays open.</p><div id="authMessage" role="status" class="auth-message"></div><div id="authSignedOut"><div id="googleSignInButton"></div><p class="dialog-footnote">We use your Google sign-in to create your account. Your email is not shown on the leaderboard.</p><a href="/" id="mainSiteAccount" class="text-button" hidden>Sign in on the main site ↗</a></div><div id="authSignedIn" hidden><div class="signed-in-label">PUBLIC NICKNAME<strong id="currentNickname"></strong></div><form id="nicknameForm" class="nickname-form"><label for="nicknameInput">Change your public nickname</label><input id="nicknameInput" name="nickname" maxlength="18" minlength="3" autocomplete="nickname" required /><button class="primary-button" type="submit">Save nickname <span>→</span></button></form><section class="history-section"><strong>Recent quiz history</strong><div id="historyList">Loading…</div></section><button class="text-button" id="logoutButton">Sign out</button><a href="/admin.html" id="adminLink" class="text-button admin-link" hidden>Open review desk ↗</a></div></dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+/.gitignore
+/wrangler.jsonc
+/package.json
+/package-lock.json
+/README.md
+/NEWS_SOURCES_REVIEW.md
+/LICENSE
+/functions/**
+/jobs/**
+/migrations/**
+/dist/**
+**/node_modules
+**/.wrangler
+**/.git
+/.dev.vars*
+/outputs/**
+/work/**

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f5f0" />
+    <title>Review desk — Current-ish</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="admin-current.css" />
+    <link rel="stylesheet" href="review.css" />
+  </head>
+  <body>
+    <header class="topbar admin-topbar"><a class="brand" href="/"><span class="brand-mark">c.</span><span>current-ish</span></a><span class="admin-top-label">EDITORIAL DESK</span><a class="account-button" href="/">Back to quiz <span>↗</span></a></header>
+    <main class="admin-shell">
+      <section class="admin-gate" id="adminGate"><div class="eyebrow muted">PRIVATE REVIEW AREA</div><h1>One moment,<br />editor.</h1><p id="gateMessage">Checking your account…</p><a href="/?account=1" class="primary-button gate-signin">Sign in as an admin <span>→</span></a></section>
+      <section id="adminDesk" hidden>
+        <div class="admin-heading"><div><div class="eyebrow muted">PRIVATE REVIEW AREA</div><h1>Make it<br /><span class="underline-word">playable.</span></h1></div><p>Review each draft against its sources. Only approved questions go live.</p></div>
+        <nav class="admin-tabs" aria-label="Review desk sections"><button class="admin-tab active" data-panel="suggestionsPanel">Suggestions <span id="suggestionCount">0</span></button><button class="admin-tab" data-panel="currentPanel">Current questions <span id="currentQuestionCount">0</span></button><button class="admin-tab" data-panel="usersPanel">Players</button><button class="admin-tab" data-panel="bannedPanel">Banned names</button></nav>
+        <div id="adminMessage" role="status" class="admin-message"></div>
+        <section class="admin-panel active" id="suggestionsPanel"><div class="panel-intro"><div><h2>Question drafts</h2><p>Edit the wording if needed, check the source, then approve or reject.</p></div><button class="secondary-button" id="refreshSuggestions">Refresh <span>↻</span></button></div><div id="suggestionList" class="suggestion-list"></div></section>
+        <section class="admin-panel" id="currentPanel"><div class="panel-intro"><div><h2>Current questions</h2><p>Questions pass out of the quiz on their suggested removal date. AI checks use the saved story summary and cannot verify source links; you decide whether to retire each question.</p></div><button class="secondary-button" id="refreshCurrent">Refresh <span>↻</span></button></div><div id="currentQuestionList" class="current-question-list"></div></section>
+        <section class="admin-panel" id="usersPanel"><div class="panel-intro"><div><h2>Player accounts</h2><p>Rename public nicknames or disable accounts. Google emails are not shown here.</p></div><button class="secondary-button" id="refreshUsers">Refresh <span>↻</span></button></div><div id="userList" class="user-list"></div></section>
+        <section class="admin-panel" id="bannedPanel"><div class="panel-intro"><div><h2>Banned names</h2><p>Nickname checks ignore punctuation and spacing when matching these terms.</p></div></div><form class="ban-form" id="banForm"><label for="banInput">Add a banned name or term</label><div><input id="banInput" maxlength="32" required /><button class="primary-button" type="submit">Add to list <span>→</span></button></div></form><div id="bannedList" class="banned-list"></div></section>
+      </section>
+    </main>
+    <footer class="footer admin-footer"><a class="footer-brand" href="/">current-ish<span>© 2026</span></a><span>Questions stay in draft until you approve them.</span><a href="/">Return to quiz ↗</a></footer>
+    <script src="admin.js"></script>
+  </body>
+</html>

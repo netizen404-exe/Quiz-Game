@@ -1,0 +1,16 @@
+.current-question-list{display:grid;gap:12px}
+.current-question-card{padding:17px 20px;background:var(--white);border:1px solid #e4e5dc;border-radius:6px}
+.current-question-meta,.current-question-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.current-question-meta{color:#858c84;font-family:var(--mono);font-size:9px;letter-spacing:.4px}
+.current-question-meta a{color:#4b6140;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0;text-decoration:none}
+.current-question-prompt{margin:14px 0;font-size:13px;font-weight:600;line-height:1.5}
+.ai-freshness{display:grid;gap:4px;margin:0 0 13px;padding:10px 12px;background:#f1f2eb;border-left:3px solid #87975e;border-radius:3px;font-size:10px;line-height:1.5}
+.ai-freshness span,.ai-freshness small{color:#737c73}
+.ai-freshness small{font-size:9px}
+.current-question-footer{padding-top:12px;border-top:1px solid #ebede5}
+.freshness-label{font-size:10px;font-weight:700}
+.freshness-label.upcoming{color:#687b42}
+.freshness-label.due{color:#a75236}
+.freshness-label.unset{color:#818880}
+.current-question-footer .secondary-button{min-height:32px;padding:0 11px;font-size:9px}
+@media(max-width:700px){.current-question-card{padding:14px}.current-question-meta,.current-question-footer{align-items:flex-start;flex-direction:column}}

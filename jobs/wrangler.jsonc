@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
+  "name": "current-ish-suggestions",
+  "main": "suggest.js",
+  "compatibility_date": "2026-10-30",
+  "triggers": { "crons": ["0 */6 * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "current-ish-db",
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID",
+      "migrations_dir": "../migrations"
+    }
+  ],
+  "vars": {
+    "GROQ_MODEL": "openai/gpt-oss-20b",
+    "NEWS_FEEDS": "[{\"url\":\"https://www.beehive.govt.nz/rss.xml\",\"publisher\":\"New Zealand Government (Beehive)\",\"topic\":\"New Zealand politics and society\",\"allowedHosts\":[\"beehive.govt.nz\"]},{\"url\":\"https://www.gov.uk/search/news-and-communications.atom\",\"publisher\":\"UK Government (GOV.UK)\",\"topic\":\"UK politics and public policy\",\"allowedHosts\":[\"www.gov.uk\"]},{\"url\":\"https://commission.europa.eu/node/2/rss_en\",\"publisher\":\"European Commission\",\"topic\":\"European and international policy\",\"allowedHosts\":[\"europa.eu\"]},{\"url\":\"https://www.consilium.europa.eu/en/rss/pressreleases.ashx\",\"publisher\":\"Council of the European Union\",\"topic\":\"European politics and international affairs\",\"allowedHosts\":[\"consilium.europa.eu\"]},{\"url\":\"https://globalvoices.org/feed/?cat=-28\",\"publisher\":\"Global Voices\",\"topic\":\"International social issues, digital rights, and technology\",\"allowedHosts\":[\"globalvoices.org\"],\"requireAuthor\":true,\"licenseLabel\":\"CC BY 3.0\"},{\"url\":\"https://projects.research-and-innovation.ec.europa.eu/horizon-magazine/ict/articles.xml\",\"publisher\":\"Horizon, the EU Research and Innovation magazine\",\"topic\":\"Technology, science, and society\",\"allowedHosts\":[\"projects.research-and-innovation.ec.europa.eu\"],\"requireAuthor\":true,\"licenseLabel\":\"CC BY 4.0\"}]"
+  }
+}
