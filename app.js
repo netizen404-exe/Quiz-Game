@@ -11,14 +11,35 @@
   const views = { home: "homeView", quiz: "quizView", results: "resultsView", leaderboard: "leaderboardView", about: "aboutView" };
   const $ = (id) => document.getElementById(id);
 
-  function setView(name) {
+  const publicViews = new Set(["home", "leaderboard", "about"]);
+
+  function viewFromLocation() {
+    const name = location.hash.slice(1).split("?")[0];
+    return publicViews.has(name) ? name : "home";
+  }
+
+  function routeUrl(name) {
+    const base = `${location.pathname}${embedMode ? "?embed=1" : ""}`;
+    return `${base}#${name}`;
+  }
+
+  function setView(name, { historyMode = "push" } = {}) {
     state.view = name;
     Object.entries(views).forEach(([key, id]) => $(id).classList.toggle("active", key === name));
     document.querySelectorAll(".nav-link").forEach((link) => link.classList.toggle("active", link.dataset.view === name));
     if (name === "leaderboard") renderBoard();
     if (name !== "quiz") window.scrollTo({ top: 0, behavior: "smooth" });
-    if (name === "home") history.replaceState(null, "", location.pathname + (embedMode ? "?embed=1" : ""));
-    else history.replaceState(null, "", `#${name}` + (embedMode ? "?embed=1" : ""));
+    if (publicViews.has(name) && historyMode !== "none") {
+      const url = routeUrl(name);
+      if (url !== `${location.pathname}${location.search}${location.hash}`) {
+        history[historyMode === "replace" ? "replaceState" : "pushState"](null, "", url);
+      }
+    }
+  }
+
+  function syncViewFromLocation() {
+    const name = viewFromLocation();
+    if (state.view !== name) setView(name, { historyMode: "none" });
   }
 
   function sampleQuestions(length) {
@@ -169,6 +190,7 @@
       if (response.ok) board = await response.json();
     } catch { /* Keep the sample board visible. */ }
     state.liveBoard = board && !board.preview ? board.leaderboard : null;
+    $("packLabel").textContent = board ? (board.preview ? "Preview question pack" : "Live question pack") : "Question pack status unavailable";
     if (state.liveBoard) {
       $("leaderRows").innerHTML = state.liveBoard.length ? state.liveBoard.map((person) => `<div class="leader-row"><span class="leader-rank">${String(person.rank).padStart(2, "0")}</span><span class="leader-player"><span class="leader-avatar">${escapeHtml([...person.nickname][0] || "?")}</span><span>${escapeHtml(person.nickname)}</span></span><span class="leader-score">${person.correct}/${person.total} (${person.percent}%)</span><span class="leader-streak"><b>✳</b> ${person.gamesPlayed} ${person.gamesPlayed === 1 ? "quiz" : "quizzes"}</span></div>`).join("") : `<div class="leader-row"><span class="leader-rank">—</span><span class="leader-player">No scores yet</span><span class="leader-score">Be first</span><span class="leader-streak">✳</span></div>`;
     } else {
@@ -335,15 +357,40 @@
   if (embedMode) document.body.classList.add("embed-mode");
   $("mainSiteAccount").href = `${location.origin}${location.pathname}`;
   const codeUrl = `${location.origin}${location.pathname}?embed=1`;
-  $("embedCode").textContent = `<iframe src="${codeUrl}" title="Current-ish news quiz" width="100%" height="760" loading="lazy" style="border:0;border-radius:8px;overflow:hidden" allow="clipboard-write"></iframe>`;
+  const hostResizeScript = `<script>
+(function(){
+  const frame = document.currentScript.previousElementSibling;
+  window.addEventListener("message", function(event) {
+    if (event.origin !== ${JSON.stringify(location.origin)} || event.source !== frame.contentWindow || event.data?.type !== "currentish:resize") return;
+    const height = Number(event.data.height);
+    if (Number.isFinite(height)) frame.style.height = Math.max(400, Math.min(height, 3000)) + "px";
+  });
+})();
+</script>`;
+  $("embedCode").textContent = `<iframe src="${codeUrl}" title="Current-ish news quiz" width="100%" height="760" loading="lazy" style="border:0;border-radius:8px;overflow:hidden" allow="clipboard-write"></iframe>\n${hostResizeScript}`;
+
+  if (embedMode && window.parent !== window) {
+    const reportEmbedHeight = () => window.parent.postMessage({ type: "currentish:resize", height: document.documentElement.scrollHeight }, "*");
+    new ResizeObserver(reportEmbedHeight).observe(document.body);
+    window.addEventListener("load", reportEmbedHeight);
+    window.addEventListener("resize", reportEmbedHeight);
+    requestAnimationFrame(reportEmbedHeight);
+  }
 
   document.querySelectorAll("[data-view]").forEach((link) => link.addEventListener("click", (event) => {
     event.preventDefault();
     setView(link.dataset.view);
   }));
+  window.addEventListener("popstate", syncViewFromLocation);
+  window.addEventListener("hashchange", syncViewFromLocation);
+  setView(viewFromLocation(), { historyMode: "none" });
   document.querySelectorAll(".length-card").forEach((card) => card.addEventListener("click", () => {
-    document.querySelectorAll(".length-card").forEach((item) => item.classList.remove("selected"));
+    document.querySelectorAll(".length-card").forEach((item) => {
+      item.classList.remove("selected");
+      item.setAttribute("aria-pressed", "false");
+    });
     card.classList.add("selected");
+    card.setAttribute("aria-pressed", "true");
     state.selectedLength = Number(card.dataset.length);
   }));
   $("startButton").addEventListener("click", () => { void startQuiz(); });
@@ -389,5 +436,5 @@
   dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
   void refreshAuth();
   if (new URLSearchParams(location.search).get("account") === "1") void openAccount();
-  renderBoard();
+  if (state.view !== "leaderboard") renderBoard();
 })();

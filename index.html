@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="accessibility.css" />
     <link rel="stylesheet" href="auth.css" />
     <link rel="stylesheet" href="sources.css" />
   </head>
@@ -29,7 +30,7 @@
       <section class="view active" id="homeView">
         <div class="hero-grid">
           <div class="hero-copy">
-            <div class="eyebrow"><span class="live-dot"></span> YOUR DAILY DOSE OF “WAIT, WHAT?”</div>
+            <div class="eyebrow"><span class="live-dot"></span> A QUICK DOSE OF “WAIT, WHAT?”</div>
             <h1>The news,<br />in <span class="underline-word">quiz</span> form.</h1>
             <p class="hero-lede">Big stories. Sharp questions. A tiny excuse to be the smartest person in the group chat.</p>
             <div class="hero-meta"><span class="spark">✳</span> Freshly curious, never doom-scrolly.</div>
@@ -48,14 +49,14 @@
             <span class="pack-pill"><span class="pill-dot"></span><span id="packLabel">Preview question pack</span></span>
           </div>
           <div class="length-grid" role="group" aria-label="Choose quiz length">
-            <button class="length-card" data-length="3"><span class="length-top"><span class="length-count">03</span><span class="length-arrow">↗</span></span><span class="length-title">Quick take</span><span class="length-desc">A tiny brain stretch</span><span class="length-time">~2 MIN</span></button>
-            <button class="length-card selected" data-length="5"><span class="length-top"><span class="length-count">05</span><span class="length-arrow">↗</span></span><span class="length-title">The usual</span><span class="length-desc">Just right with a snack</span><span class="length-time">~4 MIN <span class="popular-tag">POPULAR</span></span></button>
-            <button class="length-card" data-length="10"><span class="length-top"><span class="length-count">10</span><span class="length-arrow">↗</span></span><span class="length-title">Deep dive</span><span class="length-desc">For the group chat expert</span><span class="length-time">~7 MIN</span></button>
+            <button class="length-card" data-length="3" aria-pressed="false"><span class="length-top"><span class="length-count">03</span><span class="length-arrow">↗</span></span><span class="length-title">Quick take</span><span class="length-desc">A tiny brain stretch</span><span class="length-time">~2 MIN</span></button>
+            <button class="length-card selected" data-length="5" aria-pressed="true"><span class="length-top"><span class="length-count">05</span><span class="length-arrow">↗</span></span><span class="length-title">The usual</span><span class="length-desc">Just right with a snack</span><span class="length-time">~4 MIN <span class="popular-tag">POPULAR</span></span></button>
+            <button class="length-card" data-length="10" aria-pressed="false"><span class="length-top"><span class="length-count">10</span><span class="length-arrow">↗</span></span><span class="length-title">Deep dive</span><span class="length-desc">For the group chat expert</span><span class="length-time">~7 MIN</span></button>
           </div>
           <div class="panel-bottom"><span class="guest-note"><span class="check-mark">✓</span> No account needed to play</span><button class="primary-button" id="startButton">Let's go <span>→</span></button></div>
         </section>
 
-        <section class="today-strip"><div class="strip-icon">✳</div><div><strong>Curiosity, with receipts.</strong><span>Every answer comes with a source, so the rabbit hole is one click away.</span></div><a href="#about" data-view="about" class="text-link">How it works <span>↗</span></a></section>
+      <section class="today-strip"><div class="strip-icon">✳</div><div><strong>Curiosity, with receipts.</strong><span>Every answer includes its source and reporting date, so you can judge how current it is.</span></div><a href="#about" data-view="about" class="text-link">How it works <span>↗</span></a></section>
       </section>
 
       <section class="view quiz-view" id="quizView" aria-live="polite">
